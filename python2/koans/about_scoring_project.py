@@ -33,9 +33,84 @@ from runner.koan import *
 #
 # Your goal is to write the score method.
 
+
+
+
 def score(dice):
-    # You need to write this method
-    pass
+    # My Second try
+    from collections import Counter
+    final_score = 0
+    c = Counter(dice)
+
+    for number in c:
+        key = number
+        value = c[number]
+
+        if key == 1:
+            if value >= 3:
+                final_score += ( value - 3 ) * 100
+                final_score += 1000
+            else:
+                final_score += value * 100
+
+        elif key == 5:
+            if value >= 3:
+                final_score += ( value - 3 ) * 50
+                final_score += key * 100
+            else:
+                final_score += value * 50
+        else:
+            if value >= 3:
+                final_score += key * 100
+
+    return final_score
+
+
+    # Wajid
+    # print sorted( [ (key, value) for key, value in  to_dict(dice).iteritems()], key = lambda x : x[1], reverse=True)
+    # def to_dict(scores_set):
+    #     scores_dict = {}
+    #     for score in scores_set:
+    #         scores_dict[score] = scores_dict.get(score, 0) + 1
+    #     return scores_dict
+
+
+    # My First try
+    # final_score = 0
+    # dice_list = list(dice)
+    # pending_list = list()
+    #
+    # while len(dice_list) > 0:
+    #     x = dice_list.pop(0)
+    #     repeated_list = list()
+    #
+    #     for y in dice_list:
+    #         if x == y:
+    #             repeated_list.append(y)
+    #
+    #     for z in repeated_list: dice_list.remove(z)
+    #
+    #     if len(repeated_list) > 0:
+    #         repeated_list.append(x)
+    #         if len(repeated_list) > 3: pending_list.extend(repeated_list[3:])
+    #         if len(repeated_list) >= 3:
+    #             if 1 in repeated_list:
+    #                 final_score += 1000
+    #             else:
+    #                 final_score += repeated_list.pop(0) * 100
+    #
+    #         else:
+    #             pending_list.extend(repeated_list)
+    #     else:
+    #         pending_list.append(x)
+    #
+    # for x in pending_list:
+    #     if x == 1:
+    #         final_score += 100
+    #     elif x == 5:
+    #         final_score += 50
+    #
+    # return final_score
 
 
 class AboutScoringProject(Koan):

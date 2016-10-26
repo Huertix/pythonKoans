@@ -18,15 +18,56 @@
 
 from runner.koan import *
 
+import collections
+
 
 class Proxy(object):
     def __init__(self, target_object):
         # WRITE CODE HERE
+        object.__setattr__(self, '_messages', collections.OrderedDict())
 
         #initialize '_obj' attribute last. Trust me on this!
-        self._obj = target_object
+        #self._obj = target_object
+        object.__setattr__(self, '_obj', target_object)
 
     # WRITE CODE HERE
+
+    def __setattr__(self, attr_name, value):
+        self.update_attr(attr_name)
+        setattr(object.__getattribute__(self, "_obj"), attr_name, value)
+
+
+    def __getattr__(self, attr_name):
+        self.update_attr(attr_name)
+        return getattr(object.__getattribute__(self, "_obj"), attr_name)
+
+
+    def messages(self):
+        # messages_list = list(self._messages.keys())
+        # return messages_list[::-1]
+        return list(self._messages.keys())
+
+    def was_called(self, attr_name):
+        if attr_name in self._messages:
+            return True
+        else:
+            return False
+
+    def number_of_times_called(self, attr_name):
+        try:
+            return self._messages[attr_name]
+        except Exception as ex:
+            return 0
+
+
+    def update_attr(self, attr_name):
+        if attr_name in self._messages:
+            self._messages[attr_name] += 1
+        else:
+            self._messages[attr_name] = 1
+
+
+
 
 
 # The proxy object should pass the following Koan:
